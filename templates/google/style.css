@@ -18,7 +18,7 @@ body {
 
 .container {
     padding: 24px;
-    max-width: 450px; /* Slightly wider for modern Google look */
+    max-width: 450px; 
     width: 100%;
 }
 
@@ -28,11 +28,11 @@ body {
     border-radius: 8px;
     padding: 48px 40px 36px;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(60,64,67,.3); /* Subtle shadow */
+    box-shadow: 0 1px 3px rgba(60,64,67,.3); 
 }
 
 .google-logo {
-    width: 75px; /* Adjust as needed */
+    width: 75px; 
     height: auto;
     margin-bottom: 20px;
 }
@@ -69,7 +69,7 @@ p {
 
 .input-group input:focus {
     border-color: #1a73e8;
-    box-shadow: 0 0 0 1px #1a73e8; /* Blue focus outline */
+    box-shadow: 0 0 0 1px #1a73e8; 
 }
 
 .input-group label {
@@ -180,7 +180,7 @@ p {
     text-decoration: underline;
 }
 
-/* Specific styles for identifier and password display */
+
 .identifier-display {
     display: flex;
     align-items: center;
@@ -202,8 +202,7 @@ p {
     font-weight: 500;
 }
 
-/* New style for Show Password checkbox */
 .show-password-container {
     text-align: left;
-    margin-top: -15px; /* Adjust spacing to align with input */
-    margin-bottom: 20px; /* Space before next elements */
+    margin-top: -15px; 
+    margin-bottom: 20px;

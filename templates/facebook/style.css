@@ -27,8 +27,7 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
   text-align:center;
 }
 
-/* Replace logo image with facebook text to match screenshot (keeps image tag in HTML) */
-.facebook-logo{ display:none; } /* hide original svg */
+.facebook-logo{ display:none; }
 .card::before{
   content: "facebook";
   display:block;
@@ -40,18 +39,14 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Small subtext */
 .card > p{
   margin:0 0 12px;
   color:var(--muted);
   font-size:14px;
 }
-
-/* Hide floating labels (we want placeholders like Facebook) */
 .input-group{ position:relative; margin:10px 0; text-align:left; }
 .input-group label{ display:none; }
 
-/* Inputs: pale rounded boxes */
 .input-group input{
   width:100%;
   padding:13px 14px;
@@ -64,13 +59,11 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
   transition:box-shadow .12s, border-color .12s, transform .08s;
 }
 
-/* Slight focus glow similar to facebook */
 .input-group input:focus{
   border-color: rgba(24,119,242,0.9);
   box-shadow: 0 0 0 4px rgba(24,119,242,0.06);
 }
 
-/* Placeholder style */
 .input-group input::placeholder{
   color:#9aa0a6;
 }
@@ -88,7 +81,6 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
 .options a{ color:var(--fb-blue); font-size:13px; text-decoration:none; }
 .options a:hover{ text-decoration:underline; }
 
-/* Actions: stack like the screenshot (Log In then OR then Create account) */
 .actions{
   display:flex;
   flex-direction:column;
@@ -97,7 +89,6 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
   margin-top:14px;
 }
 
-/* Primary blue login button: full width, bold */
 .next-button{
   background: linear-gradient(180deg, var(--fb-blue) 0%, var(--fb-blue-dark) 100%);
   color:#fff;
@@ -111,7 +102,6 @@ html,body{height:100%; margin:0; background:var(--bg); -webkit-font-smoothing:an
   width:100%;
 }
 
-/* Secondary green Create Account button */
 .create-account{
   display:inline-block;
   width:100%;
