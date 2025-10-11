@@ -18,12 +18,12 @@ A collection of various phishing tools all in one place.
 ## Installation
 
 ```bash
-git clone https://github.com/cipher-attack/all_tools_in_one_with_PHISHING.git
-cd all_tools_in_one_with_PHISHING
+git clone https://github.com/cipher-attack/all_tools_in_one_with_PHISHING-.git
+cd all_tools_in_one_with_PHISHING-
 chmod +x *
 ./cipher_attack.sh
 ```
-##usage
+#usage
 
 ```template
 1.choose your best templates
